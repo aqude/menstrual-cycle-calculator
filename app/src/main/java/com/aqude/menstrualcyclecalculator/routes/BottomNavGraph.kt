@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.aqude.menstrualcyclecalculator.screens.CalculatorBloodScreen
 import com.aqude.menstrualcyclecalculator.screens.HomeScreen
 import com.aqude.menstrualcyclecalculator.screens.InfoScreen
 import com.aqude.menstrualcyclecalculator.screens.SettingsScreen
@@ -12,7 +13,7 @@ import com.aqude.menstrualcyclecalculator.screens.SettingsScreen
 fun BottomNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = BottomBarScreen.Settings.route
+        startDestination = BottomBarScreen.Home.route
     ) {
         composable(route = BottomBarScreen.Home.route) {
             HomeScreen()
@@ -22,6 +23,9 @@ fun BottomNavGraph(navController: NavHostController) {
         }
         composable(route = BottomBarScreen.Settings.route) {
             SettingsScreen()
+        }
+        composable(route = BottomBarScreen.Blood.route) {
+            CalculatorBloodScreen()
         }
     }
 }

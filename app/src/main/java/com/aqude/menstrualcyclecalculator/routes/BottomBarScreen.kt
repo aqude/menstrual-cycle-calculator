@@ -28,4 +28,10 @@ sealed class BottomBarScreen(
         title = "Info",
         icon = Icons.Default.Person
     )
+
+    object Blood : BottomBarScreen(
+        route = "blood",
+        title = "Blood",
+        icon = Icons.Default.Settings
+    )
 }
