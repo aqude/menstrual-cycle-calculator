@@ -2,6 +2,7 @@ package com.aqude.menstrualcyclecalculator.modules
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -30,7 +31,7 @@ fun TopBarInfo(textTitle: String, textInfo: String) {
     }
     val rotateState by animateFloatAsState(targetValue = if (infoCardState) 180f else 0f)
     Column(
-        modifier = Modifier.height(150.dp)
+        modifier = Modifier.height(150.dp), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
             horizontalArrangement = Arrangement.Center,
