@@ -51,7 +51,10 @@ fun CalculatorBloodScreen() {
             var resultOnButton by rememberSaveable { mutableStateOf("") }
 
             Column(
-                modifier = Modifier.padding(horizontal = 14.dp).padding(bottom = 100.dp).fillMaxSize(),
+                modifier = Modifier
+                    .padding(horizontal = 14.dp)
+                    .padding(bottom = 100.dp)
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -73,8 +76,7 @@ fun CalculatorBloodScreen() {
                     label = { Text("Количество дней менструации") }
                 )
                 Box(modifier = Modifier.height(20.dp))
-                ExtendedFloatingActionButton(
-                    backgroundColor = MaterialTheme.colors.primary,
+                Button(
                     onClick = {
                         // (количество прокладок или тампонов, использованных за день)
                         // x (количество мл впитывания крови на упаковке прокладок или тампонов)
@@ -87,8 +89,12 @@ fun CalculatorBloodScreen() {
                         showTextResult = true
                         resultOnButton = "$resultInt мл"
                     },
-                    text = { Text("Рассчитать") }
-                )
+                    colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
+                    modifier = Modifier.clip(RoundedCornerShape(16.dp))
+                        .width(200.dp).height(50.dp),
+                ) {
+                    Text("Рассчитать")
+                }
                 Box(modifier = Modifier.height(10.dp))
                 Box(modifier = Modifier.height(50.dp)) {
                     androidx.compose.animation.AnimatedVisibility(
@@ -101,6 +107,8 @@ fun CalculatorBloodScreen() {
                                 .clip(RoundedCornerShape(16.dp))
                                 .background(Color.LightGray)
                                 .padding(16.dp)
+                                .width(170.dp),
+                            contentAlignment = Alignment.Center
                         ) {
                             Text(text = resultOnButton)
                         }
