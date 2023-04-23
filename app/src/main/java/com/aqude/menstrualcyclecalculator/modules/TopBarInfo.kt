@@ -1,6 +1,9 @@
 package com.aqude.menstrualcyclecalculator.modules
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
@@ -23,6 +26,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun TopBarInfo(textTitle: String, textInfo: String) {
@@ -49,6 +56,13 @@ fun TopBarInfo(textTitle: String, textInfo: String) {
             IconButton(
                 onClick = {
                     infoCardState = !infoCardState
+
+                    if (infoCardState) {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            delay(5000)
+                            infoCardState = false
+                        }
+                    }
                 },
                 modifier = Modifier
                     .weight(1f)// фиксированная ширина кнопки
@@ -61,7 +75,11 @@ fun TopBarInfo(textTitle: String, textInfo: String) {
                 )
             }
         }
-        if (infoCardState) {
+        AnimatedVisibility(
+            visible = infoCardState,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
             Text(
                 text = textInfo,
                 fontWeight = FontWeight.Normal,

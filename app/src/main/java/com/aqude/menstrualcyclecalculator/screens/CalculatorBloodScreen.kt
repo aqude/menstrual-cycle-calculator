@@ -18,6 +18,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.aqude.menstrualcyclecalculator.modules.TopBarInfo
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun CalculatorBloodScreen() {
@@ -88,6 +92,13 @@ fun CalculatorBloodScreen() {
                         val resultInt = tamponCountsInt * tamponCountDropsInt * menstruationDaysCountInt
                         showTextResult = true
                         resultOnButton = "$resultInt мл"
+
+                        if (showTextResult) {
+                            CoroutineScope(Dispatchers.Main).launch {
+                                delay(2000)
+                                showTextResult = false
+                            }
+                        }
                     },
                     colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
                     modifier = Modifier.clip(RoundedCornerShape(16.dp))
