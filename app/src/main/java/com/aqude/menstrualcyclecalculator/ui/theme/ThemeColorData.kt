@@ -5,6 +5,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import com.aqude.menstrualcyclecalculator.datastore.StoreTheme
 
 
 data class ThemeColorData(val darkColorPalette: Colors, val lightColorPalette: Colors)
@@ -41,8 +46,13 @@ object ThemeColor {
 fun MenstrualCycleCalculatorTheme(
     content: @Composable () -> Unit
 ) {
-    val colors = AppTheme.getCurrentColorPalette()
+    val context = LocalContext.current
+    val storeTheme = remember { StoreTheme(context) }
 
+//    val isDarkThemeEnabled by storeTheme.isDarkThemeEnabledFlow.collectAsState()
+
+//    val colors = AppTheme.getCurrentColorPalette(storeTheme.getIsDarkThemeEnabled())
+    val colors = AppTheme.getCurrentColorPalette(AppTheme.getThemeState())
     MaterialTheme(
         colors = colors,
         typography = Typography,
