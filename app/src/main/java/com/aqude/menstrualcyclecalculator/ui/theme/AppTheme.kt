@@ -26,4 +26,8 @@ object AppTheme {
             lightColors
         }
     }
+
+    fun setThemeState(it: Boolean) {
+        isDarkThemeEnabled = it
+    }
 }
