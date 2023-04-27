@@ -1,30 +1,29 @@
 package com.aqude.menstrualcyclecalculator
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.aqude.menstrualcyclecalculator.datastore.StoreTheme
-import com.aqude.menstrualcyclecalculator.ui.theme.MenstrualCycleCalculatorTheme
-import kotlinx.coroutines.launch
+import androidx.datastore.preferences.preferencesDataStore
+import com.aqude.menstrualcyclecalculator.ui.theme.AppTheme
 
+//val Context.dataStore by preferencesDataStore("name")
+//val Context.dataStore by preferencesDataStore("blood-ml")
+val Context.dataStore by preferencesDataStore("settings")
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MenstrualCycleCalculatorTheme {
-                MainScreen()
-            }
+            ThemeColor()
         }
+    }
+}
+
+@Composable
+fun ThemeColor() {
+    AppTheme {
+        MainScreen()
     }
 }
 

@@ -25,24 +25,6 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun CalculatorBloodScreen() {
-
-
-    // количество прокладок или тампонов, использованных за день
-    var tamponCounts by remember {
-        mutableStateOf("")
-    }
-    // количество мл впитывания крови на упаковке прокладок или тампонов
-    var tamponCountDrops by remember {
-        mutableStateOf("")
-    }
-    // количество дней, продолжающихся менструации
-    var menstruationDaysCount by remember {
-        mutableStateOf("")
-    }
-
-    var showTextResult by remember {
-        mutableStateOf(false)
-    }
     Column() {
 // Калькулятор Крови
             // потеря крови во время менструации за цикл
