@@ -4,6 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -17,12 +21,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.datastore.dataStore
+import com.aqude.menstrualcyclecalculator.ViewModel.HomeViewModel
 import com.aqude.menstrualcyclecalculator.dataStore
-import com.aqude.menstrualcyclecalculator.ui.theme.ThemeViewModel
+import com.aqude.menstrualcyclecalculator.datastore.StoreDataName
+import com.aqude.menstrualcyclecalculator.ViewModel.ThemeViewModel
+import kotlinx.coroutines.launch
 
 
 @Composable
 fun SettingsScreen() {
+    // HomeViewModel : HomeViewModel
     val context = LocalContext.current
 
     val viewModel = remember {
@@ -30,6 +39,12 @@ fun SettingsScreen() {
     }
     val value = viewModel.state.observeAsState().value
     val systemInDarkTheme = isSystemInDarkTheme()
+
+    val scope = rememberCoroutineScope()
+    val DataStoreName = StoreDataName(context = context)
+    var name by remember {
+        mutableStateOf("")
+    }
 
     val darkModeChecked by remember(value) {
         val checked = when (value) {
@@ -58,15 +73,12 @@ fun SettingsScreen() {
         }
         Box(modifier = Modifier.fillMaxWidth()) {
             // закруглениe
-            Column() {
-                
-            }
             Box(modifier = Modifier
                 .padding(horizontal = 14.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .background(Color.LightGray)) {
                     Row(modifier = Modifier.padding(16.dp)) {
-                        Text(text = "\uD83C\uDF19 Темная тема",
+                        Text(text = "Темная тема",
                             Modifier
                                 .weight(1f)
                                 .align(Alignment.CenterVertically), fontWeight = FontWeight.Bold, fontSize = 20.sp)
@@ -83,7 +95,7 @@ fun SettingsScreen() {
             .clip(RoundedCornerShape(16.dp))
             .background(Color.LightGray)) {
             Row(modifier = Modifier.padding(16.dp)) {
-                Text(text = "\uD83C\uDF19 Системная тема",
+                Text(text = "Системная тема",
                     Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically), fontWeight = FontWeight.Bold, fontSize = 20.sp)
@@ -93,11 +105,34 @@ fun SettingsScreen() {
                 )
             }
         }
-    }
-}
+        Box(modifier = Modifier.fillMaxWidth()) {
+            // закруглениe
+            Box(modifier = Modifier
+                .padding(horizontal = 14.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .background(Color.LightGray)) {
+                Row(modifier = Modifier.padding(16.dp)) {
+                    OutlinedTextField(
+                        value = name,
+                        onValueChange = {name = it},
+                        label = { Text("Ваше имя") }
+                    )
+                    Button(onClick = {
+                        scope.launch {
+                            DataStoreName.saveDataName(name)
+                        }
+                    },
+                        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(16.dp))
+                            .width(200.dp)
+                            .height(50.dp),
+                    ) {
 
-@Preview
-@Composable
-fun PreviewFun() {
-    SettingsScreen()
+                    }
+                }
+            }
+        }
+
+    }
 }
