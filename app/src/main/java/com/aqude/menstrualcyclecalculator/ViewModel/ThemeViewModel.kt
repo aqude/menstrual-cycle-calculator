@@ -1,4 +1,4 @@
-package com.aqude.menstrualcyclecalculator.ui.theme
+package com.aqude.menstrualcyclecalculator.ViewModel
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
