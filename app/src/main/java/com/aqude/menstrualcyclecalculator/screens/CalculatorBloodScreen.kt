@@ -72,6 +72,7 @@ fun CalculatorBloodScreen() {
                 )
                 Box(modifier = Modifier.height(20.dp))
                 Button(
+                    enabled = tamponCounts.isNotBlank() && tamponCountDrops.isNotBlank() && menstruationDaysCount.isNotBlank(),
                     onClick = {
                         // (количество прокладок или тампонов, использованных за день)
                         // x (количество мл впитывания крови на упаковке прокладок или тампонов)
