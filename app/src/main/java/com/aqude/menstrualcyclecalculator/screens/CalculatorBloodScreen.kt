@@ -13,10 +13,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.datastore.dataStore
+import com.aqude.menstrualcyclecalculator.ViewModel.HomeViewModel
+import com.aqude.menstrualcyclecalculator.datastore.StoreDateBloodSize
 import com.aqude.menstrualcyclecalculator.modules.TopBarInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +32,11 @@ fun CalculatorBloodScreen() {
     Column() {
 // Калькулятор Крови
             // потеря крови во время менструации за цикл
+        val context = LocalContext.current
+        val scope = rememberCoroutineScope()
+        val dataStore = StoreDateBloodSize(context)
+
+
         TopBarInfo("Калькулятор Крови", "Оценка потери крови во время менструации за цикл менструации")
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             var tamponCounts by rememberSaveable { mutableStateOf("") }
@@ -74,6 +83,9 @@ fun CalculatorBloodScreen() {
                         val resultInt = tamponCountsInt * tamponCountDropsInt * menstruationDaysCountInt
                         showTextResult = true
                         resultOnButton = "$resultInt мл"
+                        scope.launch {
+                            dataStore.saveDataBloodSize(resultInt.toString())
+                        }
 
                         if (showTextResult) {
                             CoroutineScope(Dispatchers.Main).launch {
@@ -83,8 +95,10 @@ fun CalculatorBloodScreen() {
                         }
                     },
                     colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
-                    modifier = Modifier.clip(RoundedCornerShape(16.dp))
-                        .width(200.dp).height(50.dp),
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(16.dp))
+                        .width(200.dp)
+                        .height(50.dp),
                 ) {
                     Text("Рассчитать")
                 }
@@ -111,10 +125,4 @@ fun CalculatorBloodScreen() {
             }
         }
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun CalculatorBloodScreenPreview() {
-    CalculatorBloodScreen()
 }
