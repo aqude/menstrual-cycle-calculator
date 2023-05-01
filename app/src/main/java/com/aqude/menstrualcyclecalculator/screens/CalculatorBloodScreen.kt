@@ -1,25 +1,33 @@
 package com.aqude.menstrualcyclecalculator.screens
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.datastore.dataStore
-import com.aqude.menstrualcyclecalculator.ViewModel.HomeViewModel
 import com.aqude.menstrualcyclecalculator.datastore.StoreDateBloodSize
 import com.aqude.menstrualcyclecalculator.modules.TopBarInfo
 import kotlinx.coroutines.CoroutineScope
@@ -31,13 +39,17 @@ import kotlinx.coroutines.launch
 fun CalculatorBloodScreen() {
     Column() {
 // Калькулятор Крови
-            // потеря крови во время менструации за цикл
+        // потеря крови во время менструации за цикл
         val context = LocalContext.current
         val scope = rememberCoroutineScope()
         val dataStore = StoreDateBloodSize(context)
 
 
-        TopBarInfo("Калькулятор Крови", "Оценка потери крови во время менструации за цикл менструации")
+        TopBarInfo(
+            "Калькулятор Крови",
+            "Оценка потери крови во время менструации за цикл менструации",
+            50
+        )
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             var tamponCounts by rememberSaveable { mutableStateOf("") }
             var tamponCountDrops by rememberSaveable { mutableStateOf("") }
@@ -81,7 +93,8 @@ fun CalculatorBloodScreen() {
                         val tamponCountsInt = tamponCounts.toIntOrNull() ?: 0
                         val tamponCountDropsInt = tamponCountDrops.toIntOrNull() ?: 0
                         val menstruationDaysCountInt = menstruationDaysCount.toIntOrNull() ?: 0
-                        val resultInt = tamponCountsInt * tamponCountDropsInt * menstruationDaysCountInt
+                        val resultInt =
+                            tamponCountsInt * tamponCountDropsInt * menstruationDaysCountInt
                         showTextResult = true
                         resultOnButton = "$resultInt мл"
                         scope.launch {
