@@ -25,6 +25,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import com.aqude.menstrualcyclecalculator.ViewModel.ThemeViewModel
 import com.aqude.menstrualcyclecalculator.dataStore
 import com.aqude.menstrualcyclecalculator.datastore.StoreDataName
+import com.aqude.menstrualcyclecalculator.modules.TopBarInfo
 import kotlinx.coroutines.launch
 
 
@@ -54,8 +56,8 @@ fun SettingsScreen() {
     val systemInDarkTheme = isSystemInDarkTheme()
 
     val scope = rememberCoroutineScope()
-    val DataStoreName = StoreDataName(context = context)
-    var name by remember {
+    val dataStoreName = StoreDataName(context = context)
+    var name by rememberSaveable() {
         mutableStateOf("")
     }
 
@@ -79,18 +81,24 @@ fun SettingsScreen() {
     }
 
     Column() {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 20.dp)
-        ) {
-            Text(
-                text = "Настройки",
-                Modifier.align(Alignment.Center),
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
-            )
-        }
+//        Box(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(vertical = 20.dp)
+//        ) {
+//            Text(
+//                text = "Настройки",
+//                Modifier.align(Alignment.Center),
+//                fontWeight = FontWeight.Bold,
+//                fontSize = 20.sp
+//            )
+//        }
+        TopBarInfo(
+            "Настройки",
+            "Настройка приложения",
+            80
+        )
+
         Box(modifier = Modifier.fillMaxWidth()) {
             // закруглениe
             Box(
@@ -173,7 +181,7 @@ fun SettingsScreen() {
                         enabled = name.isNotBlank(),
                         onClick = {
                             scope.launch {
-                                DataStoreName.saveDataName(name)
+                                dataStoreName.saveDataName(name)
                             }
                         },
                         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
